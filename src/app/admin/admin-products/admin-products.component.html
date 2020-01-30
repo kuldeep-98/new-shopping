@@ -1,0 +1,46 @@
+<p>
+    <a routerLink="/admin/products/new" class="btn btn-primary">New Product</a>
+</p>
+<p>
+    <input #query (keyup)="filter(query.value)" type="text" class="form-control" placeholder="Search...">
+</p>
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+
+        <ng-container matColumnDef="index">
+            <th mat-header-cell *matHeaderCellDef>
+            </th>
+            <td mat-cell *matCellDef="let p">
+                {{dataSource.filteredData.indexOf(p)+1}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Title
+            </th>
+            <td mat-cell *matCellDef="let p">
+                {{p.value.title}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Price
+            </th>
+            <td mat-cell *matCellDef="let p">
+                {{p.value.price | currency:"&#8377;"}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef>
+            </th>
+            <td mat-cell *matCellDef="let p">
+                <a [routerLink]="['/admin/products',p.key]">Edit</a>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+    <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons>
+    </mat-paginator>
+</div>
